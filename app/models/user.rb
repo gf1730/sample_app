@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  before_save :create_user_token
+
   validates :name,
     presence: true, 
     length: { maximum: 50 }
@@ -32,5 +34,11 @@ class User < ActiveRecord::Base
     user.name = user.name.split.map(&:capitalize).join(' ')
     self.email.downcase!
   end
+
+  private
+
+    def create_user_token
+      self.remember_token = SecureRandom.urlsafe_base64
+    end
   
 end
