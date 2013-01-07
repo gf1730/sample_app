@@ -33,16 +33,26 @@ describe User do
     it { should_not be_valid }
   end
 
-  describe "when email is not present" do
-    before { @user.email = nil }
-    it { should_not be_valid }
-  end
-
   describe "when name is too long" do
     before { @user.name = "a" * 51 }
     it { should_not be_valid }
   end
   
+  describe "when email is not present" do
+    before { @user.email = nil }
+    it { should_not be_valid }
+  end
+
+  describe "when email is not lowercase" do
+    let(:mixed_case_email) { "FoO@EXAmplE.Com"}
+
+    it "should be saved as all lower case" do
+      @user.email = mixed_case_email
+      @user.save
+      @user.reload.email.should == mixed_case_email.downcase
+    end
+  end
+
   describe "when email format is invalid" do
     it "should be invalid" do
       addresses = %w[user@foo,com user_at_foo.org example.user@foo.

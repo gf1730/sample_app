@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 
   before_save do |user| 
     user.name = user.name.split.map(&:capitalize).join(' ')
-    user.email = email.downcase 
+    self.email.downcase!
   end
   
 end
