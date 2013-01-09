@@ -25,6 +25,14 @@ describe "Authentication" do
         before { click_link "Home" }
         it { should_not have_error_message }
       end
+
+      describe "accessible links" do
+        it { should_not have_link('Profile') }
+        it { should_not have_link('Users',    href: users_path) }
+        it { should_not have_link('Settings' ) }
+        it { should_not have_link('Sign out', href: signout_path) }
+        it { should have_link('Sign in', href: signin_path) }
+      end
     end
 
     describe "with valid information" do
@@ -74,8 +82,15 @@ describe "Authentication" do
           describe "after signing in" do
 
             it "should render the desired protected page" do
-              page.should have_selector('title', text: 'Edit user')
-              #page.should have_title('Edit user')
+              should have_title('Edit user')
+            end
+          end
+
+          describe "invalid sign in actions" do
+            before { visit signup_path }
+            it "should redirect to welcome page" do
+              should have_title(full_title(''))
+              should have_heading('Welcome to the Sample App')
             end
           end
         end
