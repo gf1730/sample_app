@@ -216,3 +216,11 @@ aside {
     margin-bottom: 5px;
   }
 }
+.field {
+  postition:relative;
+  margin:1em 0;
+  .counter {
+    float: right;
+    color: $grayLight;
+  }
+}
